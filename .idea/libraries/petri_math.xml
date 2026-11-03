@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="petri-math">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/petri-math.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
