@@ -30,7 +30,7 @@ public class Main {
         System.out.println(r2.toTable());
 
         long d = r2.completed[1] + r2.completed[2] + r2.completed[3];
-        System.out.printf("Формула Літтла: N̄ = %.3f, (D / T_obs)·T_sys = %.3f%n",
-                r2.avgInSystem, d / r2.observationTime * r2.avgTotalTime);
+        System.out.printf("Формула Літтла: N̄ = %.3f, λ·T_sys = %.3f%n",
+                r2.avgInSystem, r2.avgTotalTime / stable.meanInterval());
     }
 }
