@@ -83,6 +83,22 @@ public class ModelConfig {
         return c;
     }
 
+    public ModelConfig withTypeProbabilities(double p1, double p2, double p3) {
+        ModelConfig c = copy();
+        c.typeProb[0] = p1;
+        c.typeProb[1] = p2;
+        c.typeProb[2] = p3;
+        return c;
+    }
+
+    public ModelConfig withServiceTimesScaledAt(int m, double factor) {
+        ModelConfig c = copy();
+        for (int k = 0; k < c.routes.length; k++)
+            for (int s = 0; s < c.routes[k].length; s++)
+                if (c.routes[k][s] == m) c.tau[k][s] *= factor;
+        return c;
+    }
+
     public int[] route(int k) { return routes[k - 1].clone(); }
     public double tau(int k, int step) { return tau[k - 1][step]; }
     public double tauAt(int k, int m) {

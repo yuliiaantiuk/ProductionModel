@@ -32,6 +32,9 @@ public class SimulationResult {
     public double[] throughput = new double[4];         // D_k / T_obs
     public double maxInBuffer;            // максимум маркерів у P_in (чи вистачає N)
     public double avgInBuffer;            // середня сумарна кількість маркерів у P_in
+    public long refusals;
+    public long[] refusalsWs = new long[6];
+
 
     public SimulationResult(ModelConfig cfg) { this.cfg = cfg; }
 
@@ -61,7 +64,7 @@ public class SimulationResult {
             }
             sb.append('\n');
         }
-        sb.append(String.format(Locale.US, "  Контроль N: максимум у P_in = %.0f, середнє в P_in = %.4f%n", maxInBuffer, avgInBuffer));
+        sb.append(String.format(Locale.US, "  Контроль N: відмов = %d, максимум у P_in = %.0f%n", refusals, maxInBuffer));
         return sb.toString();
     }
 

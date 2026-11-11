@@ -33,6 +33,7 @@ public class StatisticsCollector implements SimulationListener {
     private final long[] arrived = new long[K + 1];
 
     private final int[] maxQueue = new int[M + 1];
+    private final long[] refusals = new long[M + 1];
     private int maxInSystem = 0;
     private int maxInBuffer = 0;
 
@@ -63,6 +64,7 @@ public class StatisticsCollector implements SimulationListener {
         switch (info.role()) {
             case ROUTE -> {
                 int first = cfg.route(k)[0];
+                countRefusal(first);
                 queue[k][first]++;
                 inSystem[k]++;
                 if (time >= tWarm) arrived[k]++;
@@ -73,11 +75,16 @@ public class StatisticsCollector implements SimulationListener {
                     if (time >= tWarm) completed[k]++;
                 } else {
                     int next = nextWorkstation(k, info.workstation());
+                    countRefusal(next);
                     queue[k][next]++;
                 }
             }
             default -> { }
         }
+    }
+
+    private void countRefusal(int m) {
+        if (idx.pFree[m][idx.queuePlaces].getMark() == 0) refusals[m]++;
     }
 
     @Override
@@ -189,6 +196,9 @@ public class StatisticsCollector implements SimulationListener {
             r.avgQueue[m] = lengthTime / tObs;                                   // (2.5)
             r.maxQueue[m] = maxQueue[m];                                         // (2.6)
         }
+        long totalRefusals = 0;
+        for (int m = 1; m <= M; m++) { r.refusalsWs[m] = refusals[m]; totalRefusals += refusals[m]; }
+        r.refusals = totalRefusals;
         r.maxInBuffer = maxInBuffer;
         r.avgInBuffer = inBufferTime / tObs;
         return r;
