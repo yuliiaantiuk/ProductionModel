@@ -134,7 +134,7 @@ public class StatisticsCollector implements SimulationListener {
 
     private void recordTrace(double time) {
         double obs = time - tWarm;
-        double[] row = new double[3 + M];
+        double[] row = new double[6 + M];
         row[0] = time;
         long done = 0;
         double waitSum = 0, sysSum = 0;
@@ -146,6 +146,9 @@ public class StatisticsCollector implements SimulationListener {
         row[1] = done > 0 ? waitSum / done : Double.NaN;
         row[2] = done > 0 ? sysSum / done : Double.NaN;
         for (int m = 1; m <= M; m++) row[2 + m] = busyTime[m] / (cfg.machines(m) * obs);
+        row[3 + M] = done;
+        row[4 + M] = waitSum;
+        row[5 + M] = sysSum;
         trace.add(row);
     }
 
